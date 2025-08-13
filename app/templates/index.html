@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1>Stock Dashboard</h1>
+    {% include "components/sidebar.html" %}
+    {% include "components/chart.html" %}
+    {% include "components/stats_cards.html" %}
+</div>
+{% endblock %}
