@@ -34,7 +34,13 @@ async def get_stock_data(symbol: str):
         raise HTTPException(status_code=400, detail="Invalid stock symbol format")
     data = fetch_stock_data(symbol)
     if "error" in data:
-        raise HTTPException(status_code=500, detail=data["error"])
+        status = data.get("status", 500)
+        err = data.get("error")
+        if isinstance(err, dict):
+            msg = err.get("message") or err.get("code") or str(err)
+        else:
+            msg = str(err)
+        raise HTTPException(status_code=status, detail=msg)
     return data
 
 @router.get("/stocks")
@@ -78,9 +84,6 @@ async def get_company_by_symbol(symbol: str):
         "updated_at": None
     }
 
- 
-
-# Prediction endpoint
 @router.get("/predict/{symbol}")
 async def predict_stock_next_day(symbol: str, days: int = 30):
     if not symbol or not re.match(r"^[A-Za-z]{1,5}$", symbol.strip()):
