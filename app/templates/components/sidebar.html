@@ -1,3 +1,22 @@
-<div class="sidebar">
-    <!-- Sidebar content -->
+<div class="sidebar bg-white shadow-sm rounded p-3 mt-3">
+    <div class="d-flex align-items-center mb-3">
+        <i class="bi bi-building text-primary me-2"></i>
+        <h5 class="mb-0">Companies</h5>
+    </div>
+    <div class="mb-3">
+        <input type="text" id="companySearch" class="form-control form-control-sm" 
+               placeholder="Search companies...">
+    </div>
+    <div id="companiesLoading" class="text-center py-3">
+        <div class="spinner-border spinner-border-sm text-primary" role="status">
+            <span class="visually-hidden">Loading companies...</span>
+        </div>
+        <div class="mt-2 small text-muted">Loading companies...</div>
+    </div>
+    <div id="companiesList" class="companies-list" style="display: none;">
+    </div>
+    <div id="companiesError" class="alert alert-warning py-2 small" style="display: none;">
+        <i class="bi bi-exclamation-triangle me-1"></i>
+        Failed to load companies. Please try again.
+    </div>
 </div>

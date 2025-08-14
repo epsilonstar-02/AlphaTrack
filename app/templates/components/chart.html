@@ -1,1 +1,27 @@
-<div id="stock-chart"></div>
+<div class="card">
+    <div class="card-header bg-white">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-0" id="chartTitle">Select a company to view stock data</h5>
+                <small class="text-muted" id="chartSubtitle">Historical price data for the last year</small>
+            </div>
+            <div id="chartLoading" style="display: none;">
+                <div class="spinner-border spinner-border-sm text-primary" role="status">
+                    <span class="visually-hidden">Loading chart...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="stockChart" style="width: 100%; height: 500px;"></div>
+        <div id="chartPlaceholder" class="text-center py-5">
+            <i class="bi bi-graph-up text-muted" style="font-size: 4rem;"></i>
+            <h4 class="text-muted mt-3">Welcome to Stock Dashboard</h4>
+            <p class="text-muted">Select a company from the sidebar to view its stock performance</p>
+        </div>
+        <div id="chartError" class="alert alert-danger text-center" style="display: none;">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <span id="chartErrorMessage">Failed to load stock data. Please try again.</span>
+        </div>
+    </div>
+</div>
