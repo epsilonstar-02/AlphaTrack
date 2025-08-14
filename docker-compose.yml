@@ -9,11 +9,10 @@ services:
     environment:
       - ALPHAVANTAGE_API_KEY=${ALPHAVANTAGE_API_KEY}
       - PYTHONUNBUFFERED=1
-    volumes:
-      - ./data:/app/data:ro
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request,sys; exit(0) if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3).getcode()==200 else sys.exit(1)"]
+      test: ["CMD", "python", "-c", "import urllib.request,sys; exit(0) if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=10).getcode()==200 else sys.exit(1)"]
       interval: 30s
-      timeout: 5s
+      timeout: 10s
       retries: 3
+      start-period: 30s
     restart: unless-stopped
