@@ -1,5 +1,12 @@
 fastapi
-uvicorn
+uvicorn[standard]
 jinja2
 plotly
 pydantic
+requests
+python-dotenv
+pytest
+httpx
+scikit-learn
+pandas
+numpy
