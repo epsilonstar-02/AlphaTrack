@@ -116,19 +116,33 @@ async function selectCompany(symbol, name) {
 async function fetchStockData(symbol) {
     try {
         const response = await fetch(`/api/stock/${symbol}`);
-        
+
         if (!response.ok) {
-            if (response.status === 404) {
-                throw new Error('Stock symbol not found');
+            let detail = '';
+            try {
+                const errBody = await response.json();
+                detail = errBody?.detail || '';
+            } catch (_) {
+                try { detail = await response.text(); } catch (_) {}
+            }
+
+            if (response.status === 429) {
+                throw new Error(detail || 'Rate limit reached. Please wait a minute and try again.');
+            } else if (response.status === 404) {
+                throw new Error(detail || 'Stock symbol not found');
+            } else if (response.status === 502) {
+                throw new Error(detail || 'Upstream data unavailable. Please try again.');
             } else if (response.status === 503) {
-                throw new Error('Service temporarily unavailable');
+                throw new Error(detail || 'Service temporarily unavailable. Please try again shortly.');
             } else if (response.status >= 500) {
-                throw new Error('Server error occurred');
+                throw new Error(detail || 'Server error occurred');
             } else if (response.status >= 400) {
-                throw new Error('Invalid request');
+                throw new Error(detail || 'Invalid request');
+            } else {
+                throw new Error('Unexpected response');
             }
         }
-        
+
         const data = await response.json();
         return data;
     } catch (error) {

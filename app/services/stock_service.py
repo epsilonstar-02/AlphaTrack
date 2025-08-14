@@ -38,8 +38,21 @@ def fetch_stock_data(symbol: str) -> Dict[str, Any]:
             "apikey": api_key,
             "datatype": "json"
         }
-        response = requests.get(url, params=params, timeout=10)
-        response.raise_for_status()
+        # Simple retry for transient issues
+        last_exc = None
+        for attempt in range(3):
+            try:
+                response = requests.get(url, params=params, timeout=15)
+                response.raise_for_status()
+                break
+            except requests.exceptions.RequestException as e:
+                last_exc = e
+                # Do not retry client errors
+                if hasattr(e, 'response') and e.response is not None and 400 <= e.response.status_code < 500:
+                    raise
+                time.sleep(0.5 * (attempt + 1))
+        else:
+            raise last_exc
         try:
             raw_data = response.json()
         except ValueError as e:
