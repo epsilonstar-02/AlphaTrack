@@ -1,4 +1,4 @@
-# Jarnox — Stock Market Dashboard
+# Stock Market Dashboard
 
 FastAPI-powered dashboard that visualizes real-time stock market data and adds a simple next-day price prediction. It serves a corporate-style UI (Bootstrap + Plotly) and a clean REST API.
 
