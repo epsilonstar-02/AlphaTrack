@@ -7,6 +7,12 @@ from app.services.prediction_service import predict_next_day
 
 router = APIRouter(prefix="/api", tags=["api"])
 
+@router.get("/diag/env")
+async def diag_env():
+    """Diagnostic endpoint: returns whether the API key is available."""
+    has_key = bool(os.getenv("ALPHAVANTAGE_API_KEY"))
+    return {"hasApiKey": has_key}
+
 @router.get("/companies")
 async def get_companies():
     try:
