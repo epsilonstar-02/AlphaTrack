@@ -3,11 +3,9 @@ let companies = [];
 let currentSymbol = null;
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing application');
     loadCompanies();
     setupSearchFilter();
     updateLastUpdatedTime();
-    console.log('Application initialization complete');
 });
 
 async function loadCompanies() {
@@ -20,23 +18,20 @@ async function loadCompanies() {
         hideElement(listEl);
         hideElement(errorEl);
         
-        console.log('Fetching companies from /api/companies');
         const response = await fetch('/api/companies');
         
         if (!response.ok) {
-            console.error('Companies API response not ok:', response.status, response.statusText);
             let errorMsg = `HTTP ${response.status}`;
             try {
                 const errorData = await response.json();
                 errorMsg = errorData.detail || errorMsg;
             } catch (e) {
-                console.warn('Could not parse error response as JSON');
+                // Ignore JSON parse errors for error responses
             }
             throw new Error(errorMsg);
         }
         
         const data = await response.json();
-        console.log('Companies API response:', data);
         
         if (data.error) {
             throw new Error(data.error);
@@ -104,20 +99,12 @@ function renderCompaniesList(companiesToShow) {
     });
 }
 
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
 // Handle company selection
 async function selectCompany(symbol, name) {
-    console.log(`Selecting company: ${symbol} (${name})`);
     symbol = symbol ? symbol.toString().trim().toUpperCase() : '';
     name = name ? name.toString().trim() : '';
     
     if (!symbol) {
-        console.error('Invalid company symbol provided');
         showChartError('Invalid company symbol');
         return;
     }
@@ -131,16 +118,13 @@ async function selectCompany(symbol, name) {
     updateLastUpdatedTime();
     
     try {
-        console.log(`Fetching stock data for ${symbol}`);
         const stockData = await fetchStockData(symbol);
         
         if (stockData.error) {
-            console.error('Stock data error:', stockData.error);
             showChartError(stockData.error);
             return;
         }
         
-        console.log('Stock data received:', stockData);
         updateChart(stockData);
         updateStatsCards(stockData);
 

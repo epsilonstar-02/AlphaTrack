@@ -234,9 +234,7 @@ function updateVolumeChart(stockData) {
 // Show data point information
 function showDataPointInfo(date, price, stockData) {
     const formattedDate = new Date(date).toLocaleDateString();
-    const message = `Date: ${formattedDate}\nPrice: $${price.toFixed(2)}`;
-    
-    console.log('Data point clicked:', message);
+    // Could add a tooltip or modal here in the future
 }
 
 // Resize chart when window resizes
