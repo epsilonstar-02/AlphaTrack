@@ -1,0 +1,27 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swm
+*.swo
+*.swn
+.Python
+env/
+venv/
+.venv/
+build/
+dist/
+.eggs/
+*.egg-info/
+.git/
+.gitignore
+node_modules/
+.DS_Store
+.idea/
+.vscode/
+**/.pytest_cache/
+uv.lock
+
+# Do not send local .env, use compose to inject
+.env

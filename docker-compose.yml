@@ -1,0 +1,19 @@
+services:
+  web:
+    build: .
+    image: jarnox:latest
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - ALPHAVANTAGE_API_KEY=${ALPHAVANTAGE_API_KEY}
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./data:/app/data:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; exit(0) if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3).getcode()==200 else sys.exit(1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
